@@ -4,6 +4,7 @@
   <li (click)="setCurrentCategory(category)" *ngFor="let category of categories" 
   [class]="getCategoryClass(category)">{{category.categoryName}}
   </li>
+  
 </ul>
 
 <h5 *ngIf="currentCategory">{{currentCategory.categoryName}}</h5>
