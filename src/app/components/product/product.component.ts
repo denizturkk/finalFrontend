@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Product } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/product.service';
+
 
 
 //axios,fetch
@@ -10,17 +12,27 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-
-  
-
   products:Product[]=[];
   dataLoaded:boolean=false;
+  filterText="";
 
 
-  constructor(private productService:ProductService) { }
+  //activeted route is a built-in angular service
+  constructor(private productService:ProductService
+    ,private activatedRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getProducts();
+    
+    this.activatedRoute.params.subscribe(params=>{
+      if(params["categoryId"]){
+        this.getProductsByCategory(params["categoryId"]);
+      }
+      else{
+        this.getProducts();
+      }
+     })
+      
+    
   
   }
 
@@ -29,8 +41,15 @@ export class ProductComponent implements OnInit {
       this.products=response.data
       this.dataLoaded=true;
     });
-    
-
   }
+
+  getProductsByCategory(categoryId:number){
+    this.productService.getProductsByCategory(categoryId).subscribe(response=>{
+      this.products=response.data
+      this.dataLoaded=true;
+    });
+  }
+
+ 
   
 }
