@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Product } from '../models/product';
 import { ListResponseModel } from '../models/listResponseModel';
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
+import { ResponseModel } from '../models/responseModel';
 
 
 @Injectable({
@@ -28,6 +29,10 @@ export class ProductService {
     
   }
 
+  add(product:Product):Observable<ResponseModel>
+  {
+    return this.httpClient.post<ResponseModel>(this.apiURL+"products/add",product);
+  }
 
 
   
